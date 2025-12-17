@@ -1,0 +1,63 @@
+................................................................................................
+
+Golang
+
+To start a go project: 
+go mod init example.com/project-name
+
+htpp package of go -> not mainly used
+gin -> the 3rd library that is mainly used for Rest-api 
+
+One module consists of multiple packages. [go build won't work if module is not there]
+To create a module -> go mod init example.com/first-app
+go build will create an executable that can be executed without having go installed [there must be package named main]
+
+.\scripts.ps1 -> This runs the script in a new scope (like a separate process context).
+. .\scripts.ps1 -> The leading dot dot-sources the script, meaning it runs in the current scope.
+
+fmt.Scan(&x) --> to take user input of variable x
+
+For formatted printing:
+fmt.Printf("The value is %v", x)
+Backticks (`this one`) does not read \n as line break. But rather the line break you put in the string (as you write it up) is the read line break
+
+func funName(parameters) (return type1, type2){}
+x := initialize and assign (not just assigning a value)
+
+There is no dedicated "while" keyword for loop in Go
+Infinite loop --> for{}
+
+For stringConversion
+import "strconv"
+x, _ := strconv.ParseFloat(text, 64) -->string to float
+
+x = fmt.Sprint(num) --> float to string
+
+64 represents the float64 (it can also be float32 if you use 32)
+
+To interact with file
+import "os"
+os.WriteFile("filename.txt", )
+
+
+Package
+Functions are shared 
+Imports are not 
+folder name should be the same as package 
+Functions, Variables that are capitalized can only be imported in other packages
+
+go package discovery page to use 3rd party packages :)
+To install 3rd party packages: go get pathToPackage
+After running the above command, you will find it in the go.mod file
+require .....
+It lists all the dependencies on which the project is depended on
+To have those dependencies downloaded: go get
+
+Pointers --> Working with addresses rather than values
+age:= 32
+agePointer:= &age
+
+
+Advantages of pointers:
+Avoid unnecessary copies ->(by default go passes parameters by value not reference just like your fav C++:: However if you are passing the parameter with &x, better deference it like *x before using that parameter :: Not that same :))
+Directly mutate values
