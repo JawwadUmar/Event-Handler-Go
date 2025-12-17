@@ -1,16 +1,52 @@
-................................................................................................
-
 Golang
 
 To start a go project: 
 go mod init example.com/project-name
+.......................................................................
 
 htpp package of go -> not mainly used
 gin -> the 3rd library that is mainly used for Rest-api 
 
+.............................................................................
+
+Array in Go
+var productNames [4]string
+productNames = [4]string{"str1", "str2", "str3", "str4"}
+    OR
+prices:= [4]float64{10, 77, 65, 44} 
+x:= [n]Type{val1, val2,.... valn}
+.............................................................................
+
+Slice in Go
+
+slice:= productNames[1:3] -> start at index 1 and go till index 3-1 =2
+
+changing element in slice will change the element is original array. Slice is just a window of your original array and not a copy.
+The capacity of slice will depend-->
+originalArray[5] 
+
+slice1:= originalArray[1:]
+cap(slice1) = 4
+
+slice2:= originalArray[:1]
+cap(slice2) = 5
+
+You can always select more element to right but not to the left
+
+Use dynamic sized array using slices
+arr := []flat64{}
+hehe keep on filliing bitch
+go will create new arrays based on the size of your of slice (since slice is based on array)
+newarr := append(arr, 5.99)
+.............................................................................
+
+DateTime must have the ISO format 
+.............................................................................
+
 One module consists of multiple packages. [go build won't work if module is not there]
 To create a module -> go mod init example.com/first-app
 go build will create an executable that can be executed without having go installed [there must be package named main]
+................................................................................
 
 .\scripts.ps1 -> This runs the script in a new scope (like a separate process context).
 . .\scripts.ps1 -> The leading dot dot-sources the script, meaning it runs in the current scope.
