@@ -15,6 +15,7 @@ productNames = [4]string{"str1", "str2", "str3", "str4"}
     OR
 prices:= [4]float64{10, 77, 65, 44} 
 x:= [n]Type{val1, val2,.... valn}
+
 .............................................................................
 
 Slice in Go
@@ -38,9 +39,19 @@ arr := []flat64{}
 hehe keep on filliing bitch
 go will create new arrays based on the size of your of slice (since slice is based on array)
 newarr := append(arr, 5.99)
+
 .............................................................................
 
+Database: 
+sql-lite --> The entire database is stored in a single file on disk (not on server side, embedded database)
+
+database driver -->
+JDBC, JPA --> In Java
+database/sql --> In Go
+..............................................................................
+
 DateTime must have the ISO format 
+
 .............................................................................
 
 One module consists of multiple packages. [go build won't work if module is not there]
