@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"example.com/rest-api/db"
+	// "github.com/aws/aws-sdk-go/private/protocol/query"
 )
 
 type Event struct {
@@ -15,7 +16,7 @@ type Event struct {
 	UserId      int
 }
 
-var events = []Event{}
+// var events = []Event{}
 
 func (e Event) Save() error {
 	query := `
@@ -43,11 +44,32 @@ func (e Event) Save() error {
 		return err
 	}
 
-	e.Id = id
+	e.Id = id //seems kind of useless
 
 	return nil
 }
 
-func GetAllEvents() []Event {
-	return events
+func GetAllEvents() ([]Event, error) {
+	query := `SELECT * from events`
+	rows, err := db.DbConnection.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	var events []Event = []Event{}
+
+	for rows.Next() {
+		var event Event
+		err = rows.Scan(&event.Id, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserId)
+
+		if err != nil {
+			return nil, err
+		}
+
+		events = append(events, event)
+	}
+
+	return events, nil
 }
