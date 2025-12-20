@@ -1,9 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"example.com/rest-api/db"
+)
 
 type Event struct {
-	Id          int
+	Id          int64
 	Name        string    `binding:"required"`
 	Description string    `binding:"required"`
 	Location    string    `binding:"required"`
@@ -13,9 +17,35 @@ type Event struct {
 
 var events = []Event{}
 
-func (e Event) Save() {
-	//logic to save the event to dataBase :)
-	events = append(events, e)
+func (e Event) Save() error {
+	query := `
+		INSERT INTO events(name, description, location, dateTime, user_id)
+		VALUES (?, ?, ?, ?, ?)
+	`
+
+	preparedStatement, err := db.DbConnection.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	sqlResult, err := preparedStatement.Exec(e.Name, e.Description, e.Location, e.DateTime, e.UserId)
+
+	defer preparedStatement.Close() //Will be closed once the function ends because of whatever reason
+
+	if err != nil {
+		return err
+	}
+
+	id, err := sqlResult.LastInsertId()
+
+	if err != nil {
+		return err
+	}
+
+	e.Id = id
+
+	return nil
 }
 
 func GetAllEvents() []Event {
