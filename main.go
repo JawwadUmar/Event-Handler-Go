@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"example.com/rest-api/db"
 	"example.com/rest-api/models"
+	"example.com/rest-api/utility"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +15,7 @@ func main() {
 	server := gin.Default()
 	server.GET("/events", getEvent)
 	server.POST("/events", createEvent)
+	server.DELETE("/events", emptyTable)
 
 	server.Run(":8081")
 }
@@ -42,11 +45,6 @@ func createEvent(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{
-		"message": "Event created :)",
-		"event":   event,
-	})
-
 	err = event.Save()
 
 	if err != nil {
@@ -54,4 +52,26 @@ func createEvent(context *gin.Context) {
 			"message": "Could not create event, Try again later",
 		})
 	}
+
+	context.JSON(http.StatusCreated, gin.H{
+		"message": "Event created :)",
+		"event":   event,
+	})
+}
+
+func emptyTable(context *gin.Context) {
+	err := utility.TruncateTable("events")
+
+	if err != nil {
+		fmt.Print(err)
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not truncate events table, Try again later",
+			"err":     err,
+		})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"message": "Events table emptied successfully",
+	})
 }
