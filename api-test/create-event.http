@@ -2,9 +2,9 @@ POST http://localhost:8081/events
 Content-Type: application/json
 
 {
-    "name": "Sis",
+    "name": "demigorgon",
     "description": "A test event",
-    "location": "Patna",
+    "location": "Hawkins",
     "dateTime": "2025-01-01T21:00:00.000Z"
 
 }

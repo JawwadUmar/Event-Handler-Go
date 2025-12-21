@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"example.com/rest-api/db"
-	// "github.com/aws/aws-sdk-go/private/protocol/query"
 )
 
 type Event struct {
@@ -72,4 +71,23 @@ func GetAllEvents() ([]Event, error) {
 	}
 
 	return events, nil
+}
+
+func GetEventById(eventId int64) (*Event, error) {
+	query := "SELECT * WHERE id = ?"
+	stmnt, err := db.DbConnection.Prepare(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	row := stmnt.QueryRow(eventId)
+	var event Event
+	err = row.Scan(&event.Id, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &event, nil
 }
