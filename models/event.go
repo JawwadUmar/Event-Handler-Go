@@ -74,12 +74,14 @@ func GetAllEvents() ([]Event, error) {
 }
 
 func GetEventById(eventId int64) (*Event, error) {
-	query := "SELECT * WHERE id = ?"
+	query := "SELECT * FROM events WHERE id = ?"
 	stmnt, err := db.DbConnection.Prepare(query)
 
 	if err != nil {
 		return nil, err
 	}
+
+	defer stmnt.Close()
 
 	row := stmnt.QueryRow(eventId)
 	var event Event

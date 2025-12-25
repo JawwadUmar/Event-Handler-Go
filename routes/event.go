@@ -1,15 +1,15 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
+	"strconv"
 
 	"example.com/rest-api/models"
 	"example.com/rest-api/utility"
 	"github.com/gin-gonic/gin"
 )
 
-func getEvent(context *gin.Context) {
+func getEvents(context *gin.Context) {
 	events, err := models.GetAllEvents()
 
 	if err != nil {
@@ -52,7 +52,7 @@ func emptyTable(context *gin.Context) {
 	err := utility.TruncateTable("events")
 
 	if err != nil {
-		fmt.Print(err)
+
 		context.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not truncate events table, Try again later",
 			"err":     err,
@@ -63,4 +63,27 @@ func emptyTable(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
 		"message": "Events table emptied successfully",
 	})
+}
+
+func getEvent(context *gin.Context) {
+	id, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"message": "Could not parses event id",
+			"err":     err,
+		})
+	}
+
+	event, err := models.GetEventById(id)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not fetch this event with this id",
+			"err":     err,
+		})
+	}
+
+	context.JSON(http.StatusOK, event)
+
 }
