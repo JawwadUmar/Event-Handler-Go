@@ -93,3 +93,21 @@ func GetEventById(eventId int64) (*Event, error) {
 
 	return &event, nil
 }
+
+func DeleteEventById(eventId int64) error {
+	query := "DELETE FROM events WHERE id = ?"
+	stmnt, err := db.DbConnection.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmnt.Close()
+	_, err = stmnt.Exec(eventId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

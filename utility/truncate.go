@@ -14,7 +14,11 @@ func TruncateTable(tableName string) error {
 		return err
 	}
 
-	// tx,err:= db.DbConnection.Begin()
+	// _, err = db.DbConnection.Begin() //for new auto increment
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
