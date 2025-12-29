@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	"example.com/rest-api/db"
@@ -108,6 +109,44 @@ func DeleteEventById(eventId int64) error {
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+func (e *Event) Update() error {
+	query := `
+		UPDATE events
+		SET name = ?,
+		description = ?,
+		location = ?,
+		dateTime = ?
+		WHERE id = ?
+	`
+
+	preparedStatement, err := db.DbConnection.Prepare(query)
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	defer preparedStatement.Close()
+
+	sqlResult, err := preparedStatement.Exec(e.Name, e.Description, e.Location, e.DateTime, e.Id)
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	rowsAffected, err := sqlResult.RowsAffected()
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	fmt.Println("Total rows affected = ", rowsAffected)
 
 	return nil
 }
