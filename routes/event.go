@@ -75,6 +75,8 @@ func getEvent(context *gin.Context) {
 			"message": "Could not parses event id",
 			"err":     err,
 		})
+
+		return
 	}
 
 	event, err := models.GetEventById(id)
@@ -84,6 +86,8 @@ func getEvent(context *gin.Context) {
 			"message": "Could not fetch this event with this id",
 			"err":     err,
 		})
+
+		return
 	}
 
 	context.JSON(http.StatusOK, event)

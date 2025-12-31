@@ -2,8 +2,8 @@ PUT http://localhost:8081/events/16
 Content-Type: application/json
 
 {
-    "name": "jonathan Upgrade: ",
-    "description": "A test event",
+    "name": "I am no one ",
+    "description": "A fu",
     "location": "Hawkins",
     "dateTime": "2025-01-01T21:00:00.000Z"
 }
