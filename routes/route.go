@@ -6,7 +6,7 @@ import (
 
 func RegisterRoutes(server *gin.Engine) {
 
-	// registerRoutesForEvent(server)
+	registerRoutesForEvent(server)
 	registerRoutesForUser(server)
 
 }

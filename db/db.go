@@ -16,6 +16,8 @@ func Init() {
 	// DbConnection, err := sql.Open("sqlite3", "myDb")
 	DbConnection, err = sql.Open("sqlite3", "api.db")
 
+	// _, err = DbConnection.Exec("PRAGMA foreign_keys = ON;") [If you want the foregin key constraint to be strict]
+
 	if err != nil {
 		panic("Could not connect to the database")
 	}
@@ -32,23 +34,29 @@ func creatTables() {
 	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		email TEXT NOT NULL,
+		email TEXT NOT NULL UNIQUE,
 		password TEXT NOT NULL
 	)
 	`
 
-	// createEventsTable := `
-	// CREATE TABLE IF NOT EXISTS events(
-	// 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	// 	name TEXT NOT NULL,
-	// 	description TEXT NOT NULL,
-	// 	location TEXT NOT NULL,
-	// 	dateTime DATETIME NOT NULL,
-	// 	user_id INTEGER
-	// )
-	// `
+	createEventsTable := `
+	CREATE TABLE IF NOT EXISTS events(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT NOT NULL,
+		description TEXT NOT NULL,
+		location TEXT NOT NULL,
+		dateTime DATETIME NOT NULL,
+		user_id INTEGER REFERENCES users(id)
+	)
+	`
 
 	_, err := DbConnection.Exec(createUsersTable)
+
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = DbConnection.Exec(createEventsTable)
 
 	if err != nil {
 		panic(err)
