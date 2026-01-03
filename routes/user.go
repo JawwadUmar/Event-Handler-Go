@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"example.com/rest-api/models"
+	"example.com/rest-api/utility"
 	"github.com/gin-gonic/gin"
 )
 
@@ -56,7 +57,7 @@ func login(context *gin.Context) {
 		return
 	}
 
-	err = user.ValidateCredential()
+	err = user.ValidateCredential() //user id is also updated
 
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{
@@ -66,5 +67,19 @@ func login(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"message": "Successfully login"})
+	token, err := utility.GenerateToken(user.Email, user.Id)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Some problem in generating jwt token",
+		})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"message": "Successfully login",
+		"token":   token,
+		"id":      user.Id,
+	})
 }
