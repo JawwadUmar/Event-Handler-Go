@@ -1,6 +1,6 @@
 POST http://localhost:8081/events
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZhaGFkdSAiLCJleHAiOjE3Njc2Mzk0OTAsInVzZXJJZCI6MTB9.s0cNnHHZS9izb_cVncTQehrwMaGSbF5_P5b0ypNVKDA
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxIiwiZXhwIjoxNzY3NjQ3MjE4LCJ1c2VySWQiOjExfQ.EFuGS30mZp7XmbzlfiiatBAtYgZb26sPVbgzh1zNXSM
 
 {
     "name": "hello kdkk ",
