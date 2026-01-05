@@ -50,6 +50,14 @@ func creatTables() {
 	)
 	`
 
+	createRegistrationTable := `
+	CREATE TABLE IF NOT EXISTS registerations(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id INTEGER REFERENCES users(id),
+		event_id INTEGER REFERENCES events(id)
+	)
+	`
+
 	_, err := DbConnection.Exec(createUsersTable)
 
 	if err != nil {
@@ -57,6 +65,12 @@ func creatTables() {
 	}
 
 	_, err = DbConnection.Exec(createEventsTable)
+
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = DbConnection.Exec(createRegistrationTable)
 
 	if err != nil {
 		panic(err)
