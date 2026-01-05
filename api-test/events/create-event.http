@@ -1,9 +1,9 @@
 POST http://localhost:8081/events
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZhdXppYWFhICIsImV4cCI6MTc2NzYzNjUxMywidXNlcklkIjo5fQ.HF7pKRYxl2YHv8fJ-B1aetWcsG8iV0nq_10Dd359dVU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZhaGFkdSAiLCJleHAiOjE3Njc2Mzk0OTAsInVzZXJJZCI6MTB9.s0cNnHHZS9izb_cVncTQehrwMaGSbF5_P5b0ypNVKDA
 
 {
-    "name": "hello wance ",
+    "name": "hello kdkk ",
     "description": "A test event",
     "location": "Hawkins",
     "dateTime": "2025-01-01T21:00:00.000Z"
