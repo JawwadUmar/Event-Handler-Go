@@ -11,7 +11,7 @@ func Authentication(context *gin.Context) {
 	token := context.Request.Header.Get("Authorization")
 
 	if token == "" {
-		context.JSON(http.StatusUnauthorized, gin.H{
+		context.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"message": "Not authorized, empty token",
 		})
 
@@ -21,7 +21,7 @@ func Authentication(context *gin.Context) {
 	err := utility.VerifyToken(token)
 
 	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{
+		context.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 			"message": "Could not verify token",
 		})
 
@@ -31,7 +31,7 @@ func Authentication(context *gin.Context) {
 	userId, err := utility.GetEventCreatorUserId(token)
 
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{
+		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get the user Id of Event-creator",
 		})
 
@@ -39,4 +39,5 @@ func Authentication(context *gin.Context) {
 	}
 
 	context.Set("userId", userId)
+	context.Next()
 }
