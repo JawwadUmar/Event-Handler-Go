@@ -23,38 +23,9 @@ func getEvents(context *gin.Context) {
 }
 
 func createEvent(context *gin.Context) {
-	token := context.Request.Header.Get("Authorization")
-
-	if token == "" {
-		context.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Not authorized, empty token",
-		})
-
-		return
-	}
-
-	err := utility.VerifyToken(token)
-
-	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Could not verify token",
-		})
-
-		return
-	}
-
-	userId, err := utility.GetEventCreatorUserId(token)
-
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Could not get the user Id of Event-creator",
-		})
-
-		return
-	}
 
 	var event models.Event
-	err = context.ShouldBindJSON(&event)
+	err := context.ShouldBindJSON(&event)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
@@ -64,6 +35,7 @@ func createEvent(context *gin.Context) {
 		return
 	}
 
+	userId := context.GetInt64("userId")
 	event.UserId = userId
 
 	err = event.Save()

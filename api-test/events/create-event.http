@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZhdXppYWFhICIsImV4cCI6MTc2NzYzNjUxMywidXNlcklkIjo5fQ.HF7pKRYxl2YHv8fJ-B1aetWcsG8iV0nq_10Dd359dVU
 
 {
-    "name": "dance wance ",
+    "name": "hello wance ",
     "description": "A test event",
     "location": "Hawkins",
     "dateTime": "2025-01-01T21:00:00.000Z"
