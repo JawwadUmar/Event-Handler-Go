@@ -43,6 +43,16 @@ func createEvent(context *gin.Context) {
 		return
 	}
 
+	userId, err := utility.GetEventCreatorUserId(token)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not get the user Id of Event-creator",
+		})
+
+		return
+	}
+
 	var event models.Event
 	err = context.ShouldBindJSON(&event)
 
@@ -53,6 +63,8 @@ func createEvent(context *gin.Context) {
 
 		return
 	}
+
+	event.UserId = userId
 
 	err = event.Save()
 
