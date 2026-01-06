@@ -1,6 +1,10 @@
 package models
 
-import "example.com/rest-api/db"
+import (
+	"errors"
+
+	"example.com/rest-api/db"
+)
 
 type Register struct {
 	Id      int64
@@ -18,6 +22,33 @@ func (r *Register) Save() error {
 	}
 
 	_, err = stmnt.Exec(r.UserId, r.EventId)
+
+	return err
+}
+
+func (r *Register) RemoveRegistration() error {
+	query := `DELETE FROM registerations WHERE user_id = ? AND event_id = ?`
+	stmnt, err := db.DbConnection.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	sqlResult, err := stmnt.Exec(r.UserId, r.EventId)
+
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := sqlResult.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return errors.New("No rows affected :)")
+	}
 
 	return err
 }

@@ -42,6 +42,34 @@ func registerForEvent(context *gin.Context) {
 
 }
 
+func unregister(context *gin.Context) {
+	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Some problem while converting event id to int"})
+		return
+	}
+
+	userId := context.GetInt64("userId")
+
+	register := models.Register{
+		EventId: eventId,
+		UserId:  userId,
+	}
+
+	err = register.RemoveRegistration()
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Problem with deleting",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Successfully deleted"})
+}
+
 func getRegistrations(context *gin.Context) {
 	registerations, err := models.GetAllRegisterations()
 
